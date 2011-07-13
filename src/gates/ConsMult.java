@@ -1,9 +1,6 @@
 package gates;
 
 import java.util.ArrayList;
-
-import party.Party;
-
 import crypto.SecretShare;
 
 public class ConsMult extends Gate {
@@ -18,7 +15,7 @@ public class ConsMult extends Gate {
 
 	@Override
 	public void compute() {
-		this.result = new SecretShare(0, 0);
+		this.result = new SecretShare(0, 0, input.get(0).getValue().secret) ;
 		this.result.x = modField(input.get(0).getValue().x * constatnt);
 		this.result.y = modField(input.get(0).getValue().y * constatnt);
 		

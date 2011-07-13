@@ -23,6 +23,7 @@ public abstract class Gate {
 	
 	public abstract void compute();	
 	
+	// modulo %, but results a non negative number
 	public static int modField(int x){
 		int ans = (x % Party.field);
 		while(ans<0){
