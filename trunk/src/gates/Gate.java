@@ -8,6 +8,8 @@ import crypto.SecretShare;
 
 public abstract class Gate {
 	
+	public static int forId = 1;
+	public int id;
 	protected SecretShare result;
 	protected ArrayList<GateInput> input;
 	//protected ArrayList<Gate> output; // output gates
@@ -15,6 +17,8 @@ public abstract class Gate {
 	public Gate(ArrayList<GateInput> input/*, ArrayList<Gate> output*/){
 		result = null;
 		this.input = input;
+		id = forId;
+		forId++;
 		/*this.output = output;
 		if(output == null)
 			this.output = new ArrayList<Gate>();

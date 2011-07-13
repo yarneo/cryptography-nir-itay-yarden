@@ -14,7 +14,7 @@ public class AdditionGate extends Gate {
 	@Override
 	public void compute() {
 		//this.result.add(e);
-		this.result = new SecretShare(0, 0, null);
+		this.result = new SecretShare(0, 0, Integer.toString(this.id));
 		for (GateInput in : input) {
 			this.result.x = modField(this.result.x +  in.getValue().x);
 			this.result.y = modField(this.result.y +  in.getValue().y);

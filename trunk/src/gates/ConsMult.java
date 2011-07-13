@@ -15,12 +15,9 @@ public class ConsMult extends Gate {
 
 	@Override
 	public void compute() {
-		this.result = new SecretShare(0, 0, input.get(0).getValue().secret) ;
-		this.result.x = modField(input.get(0).getValue().x * constatnt);
-		this.result.y = modField(input.get(0).getValue().y * constatnt);
-		
-		System.out.println("result of const multiplication : x = "
-				+ this.result.x + ", y = " + this.result.y );
+		this.result =new SecretShare(modField(input.get(0).getValue().x * constatnt), 
+				modField(input.get(0).getValue().y * constatnt), 
+				Integer.toString(this.id)) ;
 	}
 
 }
