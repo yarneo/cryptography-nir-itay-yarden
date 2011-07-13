@@ -30,5 +30,9 @@ public abstract class Gate {
 		}
 		return ans;
 	}
+	
+	public SecretShare getResult(){
+		return result;
+	}
 
 }
