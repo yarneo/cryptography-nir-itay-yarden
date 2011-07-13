@@ -3,6 +3,8 @@ package party;
 import gates.Gate;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import utils.Polynomial;
 import crypto.SecretShare;
 
 public class Party {
@@ -27,34 +29,26 @@ public class Party {
 
 	// share the local secret with the other parties
 	public void shareSecret() {
-		Vector<Integer> coef = this.createPolynomial(this.secret);
+		// initial secret sharing
+		// key is Party PartyIndex
+		Polynomial.shareSecret("Party " + Integer.toString(this.getIndex()), this.secret);
+	}
+
+	public void addSecret(SecretShare s) {
+		this.shares.add(s);		
+	}
+	
+	public int getIndex(){
+		return index;
+	}
+	
+	public SecretShare getSecret(String key){
+		for (SecretShare s : this.shares) {
+			if(s.key.equals(key))
+				return s;
+		}
 		
-
-	}
-
-	// create a polynomial with degree t
-	public Vector<Integer> createPolynomial(int secret) {
-		Vector<Integer> coefs = new Vector<Integer>();
-		for (int i = 0; i < Party.t; i++) {
-			int coef = (int) (Math.random() * 100);
-			coefs.add(i, Gate.modField(coef));
-			// System.out.println("coef " + i + ": " + coef);
-		}
-		coefs.set(0, secret);
-		// demand that the final coef is not zero
-		while (coefs.get(Party.t - 1) == 0) {
-			if ((Party.t == 1) && (secret == 0))
-				break;
-			coefs.set(Party.t - 1, Gate.modField((int) (Math.random() * 100)));
-		}
-		return coefs;
-	}
-
-	// for debug
-	public void printPolynoial(Vector<Integer> p) {
-		for (int i = 0; i < p.size(); i++) {
-			System.out.println("coef " + i + ": " + p.get(i));
-		}
+		return null;
 	}
 
 }

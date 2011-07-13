@@ -2,6 +2,8 @@ package party;
 
 import java.util.ArrayList;
 
+import utils.Polynomial;
+
 import crypto.SecretShare;
 import gates.AdditionGate;
 import gates.ConsMult;
@@ -39,9 +41,9 @@ public class TestMain {
 		conAfterAdd.compute(); // should be - result of const multiplication : x = 3, y = 0
 		*/
 		
-		//test polynomial creation out of share
-		Party p1 = new Party(5);
-		p1.printPolynoial(p1.createPolynomial(5));
+		//test polynomial creation out of secret
+		Polynomial p = Polynomial.create(5);
+		p.printPolynoial();
 		
 		
 		
