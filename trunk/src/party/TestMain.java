@@ -16,9 +16,11 @@ public class TestMain {
 	public static void main(String[] args) {
 		
 		System.out.println("field = " + Party.field);
+		
+		/*
 		// check addition gate
-		SecretShare s1 = new SecretShare(3, 4);
-		SecretShare s2 = new SecretShare(2, 3);
+		SecretShare s1 = new SecretShare(3, 4, null);
+		SecretShare s2 = new SecretShare(2, 3, null);
 		ArrayList<GateInput> input = new ArrayList<GateInput>();
 		input.add(new GateInput(1, s1));
 		input.add(new GateInput(2, s2));
@@ -35,7 +37,11 @@ public class TestMain {
 		input3.add(new GateInput(1, add.getResult()));
 		Gate conAfterAdd = new ConsMult(input3, 2);
 		conAfterAdd.compute(); // should be - result of const multiplication : x = 3, y = 0
-	
+		*/
+		
+		//test polynomial creation out of share
+		Party p1 = new Party(5);
+		p1.printPolynoial(p1.createPolynomial(5));
 		
 		
 		

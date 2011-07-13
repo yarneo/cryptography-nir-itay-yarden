@@ -1,9 +1,6 @@
 package gates;
 
 import java.util.ArrayList;
-
-import party.Party;
-
 import crypto.SecretShare;
 
 public class AdditionGate extends Gate {
@@ -17,7 +14,7 @@ public class AdditionGate extends Gate {
 	@Override
 	public void compute() {
 		//this.result.add(e);
-		this.result = new SecretShare(0, 0);
+		this.result = new SecretShare(0, 0, null);
 		for (GateInput in : input) {
 			this.result.x = modField(this.result.x +  in.getValue().x);
 			this.result.y = modField(this.result.y +  in.getValue().y);
