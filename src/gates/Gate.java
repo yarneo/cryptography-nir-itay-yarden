@@ -33,7 +33,8 @@ public abstract class Gate {
 		while(ans<0){
 			ans += Party.field;
 		}
-		return ans;
+		//return ans;
+		return x;
 	}
 	
 	public ArrayList<GateIO> getResult(){
