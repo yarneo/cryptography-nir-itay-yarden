@@ -17,7 +17,7 @@ public class Polynomial {
 	public Polynomial(Vector<Integer> coef){
 		this.coef = coef;
 	}
-	
+	// get val at point value 
 	public int computeCoef(int value) {
 //		System.out.println("value = " + value);
 		int ans = coef.get(0);
