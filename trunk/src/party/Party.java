@@ -30,7 +30,7 @@ public class Party {
 	// share the local secret with the other parties
 	public void shareSecret() {
 		// initial secret sharing
-		Polynomial.shareSecret(this.secret);
+		Polynomial.createShareSecret(this.secret);
 	}
 
 	public void addSecretShare(SecretShare s) {

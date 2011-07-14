@@ -20,30 +20,31 @@ public class MultiplicationGate extends Gate {
 		
 		//compute s1, s2 secret shares for all the parties
 		//s1s2[i] - pair(s1 SecretShare, s2 SecretShare) for party i
-		Vector<Vector<SecretShare>> s1s2 = new Vector<Vector<SecretShare>>();
+		ArrayList<ArrayList<SecretShare>> s1s2 = new ArrayList<ArrayList<SecretShare>>();
 		for (GateIO in : this.input) {
-			Vector<SecretShare> theShares = new Vector<SecretShare>();
+			ArrayList<SecretShare> theShares = new ArrayList<SecretShare>();
 			theShares.add(0, in.getValue().get(0)); // s1
 			theShares.add(1, in.getValue().get(1)); // s2
 			s1s2.add(in.getIndex(), theShares);
 		}
 		
 		//compute locally - s1*s2
-		Vector<SecretShare> localMults = new Vector<SecretShare>();
+		ArrayList<SecretShare> localMults = new ArrayList<SecretShare>();
 		for (int i = 0; i < s1s2.size(); i++) {
 			localMults.add(i, new SecretShare(s1s2.get(i).get(0).x,
 					modField(s1s2.get(i).get(0).y * s1s2.get(i).get(1).y)));			
 		}
 		
 		// share the local multiplications between the parties
-		Vector<Vector<SecretShare>> localMultsShare = new Vector<Vector<SecretShare>>();
+		// localMultShare[i] - the secrets share of party i secret
+		ArrayList<ArrayList<SecretShare>> localMultsShare = new ArrayList<ArrayList<SecretShare>>();
 		for (int i = 0; i < localMultsShare.size(); i++) {
-			localMultsShare.add(i, new Vector<SecretShare>());			
+			localMultsShare.add(i, new ArrayList<SecretShare>());			
 		}
 		for (SecretShare mult : localMults) {
-			Vector<SecretShare> yiShares = Polynomial.shareSecret(mult.y);
+			ArrayList<SecretShare> yiShares = Polynomial.createShareSecret(mult.y);
 			for (int i = 0; i < yiShares.size(); i++) {
-				Vector<SecretShare> tmp = localMultsShare.get(i);
+				ArrayList<SecretShare> tmp = localMultsShare.get(i);
 				tmp.add(yiShares.get(i));
 				localMultsShare.set(i, tmp);
 			}

@@ -1,14 +1,14 @@
 package crypto;
 
-import party.Party;
+import gates.Gate;
 
 public class SecretShare {
 	public int x;
 	public int y;
 	
 	public SecretShare(int x, int y){
-		this.x = x % Party.field;
-		this.y = y % Party.field;
+		this.x = Gate.modField(x);
+		this.y = Gate.modField(y);
 	}
 	
 	// for debug

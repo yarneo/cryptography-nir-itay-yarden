@@ -40,9 +40,8 @@ public class TestMain {
 		*/
 		
 		//test polynomial creation out of secret
-		Polynomial p = Polynomial.create(5);
-		p.printPolynoial();
-		
+		//Polynomial p = Polynomial.create(5);
+		//p.printPolynomial();
 		
 		
 	}

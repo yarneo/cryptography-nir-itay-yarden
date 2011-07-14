@@ -2,6 +2,7 @@ package utils;
 
 import gates.Gate;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import crypto.SecretShare;
@@ -47,15 +48,15 @@ public class Polynomial {
 	}
 	
 	// for debug
-	public void printPolynoial() {
+	public void printPolynomial() {
 		for (int i = 0; i < this.coef.size(); i++) {
 			System.out.println("coef " + i + ": " + this.coef.get(i));
 		}
 	}
 	
 	// share the local secret with the other parties
-	public static Vector<SecretShare> shareSecret(int secret) {
-		Vector<SecretShare> result = new Vector<SecretShare>();
+	public static ArrayList<SecretShare> createShareSecret(int secret) {
+		ArrayList<SecretShare> result = new ArrayList<SecretShare>();
 		Polynomial poly = Polynomial.create(secret);
 		for (Party p : Party.parties) {
 			int valueInP = poly.computeCoef(p.getIndex());
