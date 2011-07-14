@@ -13,7 +13,7 @@ public class SecretShare {
 	
 	// for debug
 	public String toString() {
-		return "(" + Integer.toString(x) + " , " + Integer.toString(y) + ")";
+		return "[" + Integer.toString(x) + " , " + Integer.toString(y) + "]";
 	}
 
 }

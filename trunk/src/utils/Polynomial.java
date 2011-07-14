@@ -13,19 +13,23 @@ public class Polynomial {
 	
 	private Vector<Integer> coef;
 	
-	public Polynomial(){
-		coef = new Vector<Integer>();
-	}
-	
-	private Polynomial(Vector<Integer> coef){
+	// change to private!!
+	public Polynomial(Vector<Integer> coef){
 		this.coef = coef;
 	}
 	
 	public int computeCoef(int value) {
-		int ans = 0;
-		for (int i = 0; i < coef.size(); i++) {
-			ans += coef.get(i) * value ^ i;			
+//		System.out.println("value = " + value);
+		int ans = coef.get(0);
+		for (int i = 1; i < coef.size(); i++) {
+//			System.out.println("coef.get(i)" + coef.get(i));
+//			System.out.println("value = " + value);
+//			System.out.println("i = " + i);
+//			System.out.println("(value ^ i)" + (value ^ i));
+			//System.out.println(" i = " + i + " x = " + (coef.get(i) * (value ^ i)));
+			ans = ans + (coef.get(i) * (int)(Math.pow((double)value, (double)i)));			
 		}
+//		System.out.println("result = " + ans);
 		return Gate.modField(ans);
 	}
 	
