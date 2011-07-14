@@ -32,7 +32,7 @@ public class Polynomial {
 	// create a polynomial with degree t
 	public static Polynomial create(int secret){
 		Vector<Integer> coefs = new Vector<Integer>();
-		for (int i = 0; i < Party.t; i++) {
+		for (int i = 0; i <= Party.t; i++) {
 			int coef = (int) (Math.random() * 100);
 			coefs.add(i, Gate.modField(coef));
 			// System.out.println("coef " + i + ": " + coef);
@@ -61,7 +61,7 @@ public class Polynomial {
 		for (Party p : Party.parties) {
 			int valueInP = poly.computeCoef(p.getIndex());
 			SecretShare s = new SecretShare(p.getIndex(), valueInP);
-			result.add(p.getIndex(), s);
+			result.add(p.getIndex() - 1, s);
 		}
 		return result;
 	}
