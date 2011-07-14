@@ -55,13 +55,15 @@ public class Polynomial {
 	}
 	
 	// share the local secret with the other parties
-	public static void shareSecret(String key, int secret) {
+	public static Vector<SecretShare> shareSecret(int secret) {
+		Vector<SecretShare> result = new Vector<SecretShare>();
 		Polynomial poly = Polynomial.create(secret);
 		for (Party p : Party.parties) {
 			int valueInP = poly.computeCoef(p.getIndex());
-			SecretShare s = new SecretShare(p.getIndex(), valueInP, key);
-			p.addSecret(s);
+			SecretShare s = new SecretShare(p.getIndex(), valueInP);
+			result.add(p.getIndex(), s);
 		}
+		return result;
 	}
 	
 }
