@@ -30,25 +30,15 @@ public class Party {
 	// share the local secret with the other parties
 	public void shareSecret() {
 		// initial secret sharing
-		// key is Party PartyIndex
-		Polynomial.shareSecret("Party " + Integer.toString(this.getIndex()), this.secret);
+		Polynomial.shareSecret(this.secret);
 	}
 
-	public void addSecret(SecretShare s) {
+	public void addSecretShare(SecretShare s) {
 		this.shares.add(s);		
 	}
 	
 	public int getIndex(){
 		return index;
-	}
-	
-	public SecretShare getSecret(String key){
-		for (SecretShare s : this.shares) {
-			if(s.key.equals(key))
-				return s;
-		}
-		
-		return null;
 	}
 
 }

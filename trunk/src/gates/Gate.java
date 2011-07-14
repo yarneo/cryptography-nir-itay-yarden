@@ -10,11 +10,11 @@ public abstract class Gate {
 	
 	public static int forId = 1;
 	public int id;
-	protected SecretShare result;
-	protected ArrayList<GateInput> input;
+	protected ArrayList<GateIO> input;
+	protected ArrayList<GateIO> result;
 	//protected ArrayList<Gate> output; // output gates
 	
-	public Gate(ArrayList<GateInput> input/*, ArrayList<Gate> output*/){
+	public Gate(ArrayList<GateIO> input/*, ArrayList<Gate> output*/){
 		result = null;
 		this.input = input;
 		id = forId;
@@ -36,7 +36,7 @@ public abstract class Gate {
 		return ans;
 	}
 	
-	public SecretShare getResult(){
+	public ArrayList<GateIO> getResult(){
 		return result;
 	}
 
