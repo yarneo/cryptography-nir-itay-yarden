@@ -23,13 +23,12 @@ public class Polynomial {
 	public int computeCoef(int value) {
 		int ans = 0;
 		for (int i = 0; i < coef.size(); i++) {
-			ans += coef.get(i) + value ^ i;			
+			ans += coef.get(i) * value ^ i;			
 		}
 		return Gate.modField(ans);
 	}
 	
 	// create a polynomial with degree t
-
 	public static Polynomial create(int secret){
 		Vector<Integer> coefs = new Vector<Integer>();
 		for (int i = 0; i < Party.t; i++) {
