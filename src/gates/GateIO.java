@@ -14,7 +14,7 @@ public class GateIO {
 	public ArrayList<SecretShare> value;
 	
 	public GateIO(int index){
-		if(index <= 0 || index >= Party.n)
+		if(index < 0 || index >= Party.n)
 			throw new IllegalArgumentException("index out of bounds");
 		this.index = index;
 		this.value = new ArrayList<SecretShare>();		
