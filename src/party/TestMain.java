@@ -85,6 +85,5 @@ public class TestMain {
 		input.add(forP1);
 		input.add(forP2);
 		input.add(forP3);
-
 	}
 }
