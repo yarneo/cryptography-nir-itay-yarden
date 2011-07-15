@@ -34,7 +34,8 @@ public abstract class Gate {
 			ans += Party.field;
 		}
 		//return ans;
-		return x;
+		
+		return x; // just for testing
 	}
 	
 	public ArrayList<GateIO> getResult(){
