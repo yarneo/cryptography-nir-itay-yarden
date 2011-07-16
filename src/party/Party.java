@@ -23,17 +23,26 @@ public class Party {
 	private int index;
 	private ArrayList<SecretShare> shares;
 
+	public Party() {
+		this.secret = -1; //no secret
+		this.index = PartyIndex;
+		PartyIndex++;
+		parties.add(this);
+		shares = new ArrayList<SecretShare>();
+	}
+	
 	public Party(int secret) {
 		this.secret = secret;
 		this.index = PartyIndex;
 		PartyIndex++;
 		parties.add(this);
+		shares = new ArrayList<SecretShare>();
 	}
 
 	// share the local secret with the other parties
-	public void shareSecret() {
+	public ArrayList<SecretShare> shareSecret() {
 		// initial secret sharing
-		Polynomial.createShareSecret(this.secret);
+		return Polynomial.createShareSecret(this.secret);
 	}
 
 	public void addSecretShare(SecretShare s) {
@@ -42,6 +51,10 @@ public class Party {
 	
 	public int getIndex(){
 		return index;
+	}
+	
+	public ArrayList<SecretShare> getShares() {
+		return shares;
 	}
 
 }
