@@ -37,8 +37,8 @@ public class MultiplicationGate extends Gate {
 		for (int i = 0; i < s1s2.size(); i++) {
 			localMults.add(i, new SecretShare(s1s2.get(i).get(0).x,
 					modField(s1s2.get(i).get(0).y * s1s2.get(i).get(1).y)));
-			System.out.println(new SecretShare(s1s2.get(i).get(0).x,
-					modField(s1s2.get(i).get(0).y * s1s2.get(i).get(1).y)));
+			//System.out.println(new SecretShare(s1s2.get(i).get(0).x,
+			//		modField(s1s2.get(i).get(0).y * s1s2.get(i).get(1).y)));
 		}
 		
 		// share the local multiplications between the parties
@@ -51,7 +51,7 @@ public class MultiplicationGate extends Gate {
 		for (SecretShare mult : localMults) {
 			ArrayList<SecretShare> yiShares = Polynomial.createShareSecret(mult.y);
 			for (int i = 0; i < yiShares.size(); i++) {
-				System.out.println("i = " + i + " y = " + yiShares.get(i));
+				//System.out.println("i = " + i + " y = " + yiShares.get(i));
 			}
 			for (int i = 0; i < yiShares.size(); i++) {
 				ArrayList<SecretShare> tmp = localMultsShare.get(i);
@@ -83,7 +83,7 @@ public class MultiplicationGate extends Gate {
 		}
 		
 		for (int i = 0; i < this.result.size(); i++) {
-			System.out.println(this.result.get(i).value.get(0));
+		//	System.out.println(this.result.get(i).value.get(0));
 		}
 		
 		

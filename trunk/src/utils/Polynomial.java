@@ -1,6 +1,7 @@
 package utils;
 
 import gates.Gate;
+import gates.GateIO;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -13,6 +14,8 @@ public class Polynomial {
 	
 	private Vector<Integer> coef;
 	
+	public Polynomial() {
+	}
 	// change to private!!
 	public Polynomial(Vector<Integer> coef){
 		this.coef = coef;
@@ -66,8 +69,26 @@ public class Polynomial {
 			int valueInP = poly.computeCoef(p.getIndex());
 			SecretShare s = new SecretShare(p.getIndex(), valueInP);
 			result.add(p.getIndex() - 1, s);
+			//p.addSecretShare(s);
 		}
 		return result;
+	}
+	
+	public static int computeSecret(ArrayList<SecretShare> shares) {
+		double ans = 0.0;
+		double[] li = new double[shares.size()];
+			  for(int i=0;i<shares.size();i++) {
+				  li[i] = (double)shares.get(i).y;
+				  for(int j=0;j<shares.size();j++) {
+					  if(j!=i) {
+						 li[i] *= (0.0-((double)shares.get(j).x))/(((double)shares.get(i).x)-((double)shares.get(j).x));
+					  }
+				  }
+			  }
+			  for(int i=0;i<li.length;i++) {
+				  ans += li[i];
+			  }
+			  return (int)ans;
 	}
 	
 }

@@ -13,6 +13,13 @@ public class GateIO {
 	// for output - one secret share
 	public ArrayList<SecretShare> value;
 	
+	public GateIO(int index,ArrayList<SecretShare> ss){
+		if(index < 0 || index >= Party.n)
+			throw new IllegalArgumentException("index out of bounds");
+		this.index = index;
+		this.value = ss;		
+	}
+	
 	public GateIO(int index){
 		if(index < 0 || index >= Party.n)
 			throw new IllegalArgumentException("index out of bounds");
