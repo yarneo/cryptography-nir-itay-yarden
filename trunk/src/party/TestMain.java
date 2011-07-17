@@ -14,7 +14,12 @@ public class TestMain {
 	 */
 	public static ArrayList<GateIO> input = new ArrayList<GateIO>(); 
 	public static void main(String[] args) {
-//		setup();
+		
+		System.out.println("test gcd");
+		int [] a = Polynomial.extendedGcd(5, 7);
+		System.out.println(a[0] + " " + a[1] + " " + a[2]);
+		
+		//		setup();
 		testMultiplicationGate();
 //		testConstCompute();	
 //		System.out.println("field = " + Party.field);		
