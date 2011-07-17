@@ -21,7 +21,10 @@ public class TestMain {
 		// System.out.println(Polynomial.fieldDiv(1, 7));
 		// System.out.println(Polynomial.fieldDiv(1, 0));
 		
-		
+		System.out.println("test gcd");
+		int [] a = Polynomial.extendedGcd(3, 7);
+		System.out.println(a[0] + " " + a[1] + " " + a[2]);
+		System.out.println(Polynomial.fieldDiv(3, 5));
 //		setup();
 //		testMultiplicationGate();
 //		testConstCompute();	
