@@ -23,6 +23,7 @@ public class AdditionGate extends Gate {
 				outValue.y = modField(outValue.y +  sIn.y);
 			}
 			out.value.add(outValue);
+			System.out.println("out value is: (" + outValue.x + ","+ outValue.y + ")");
 			this.result.add(out);			
 		}
 	}

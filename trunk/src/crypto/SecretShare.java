@@ -9,6 +9,9 @@ public class SecretShare {
 	public SecretShare(int x, int y){
 		this.x = Gate.modField(x);
 		this.y = Gate.modField(y);
+		// debug
+		/*this.x = x;// Gate.modField(x);
+		this.y = y;//Gate.modField(y);*/
 	}
 	
 	// for debug
