@@ -4,7 +4,6 @@ import gates.Gate;
 import gates.GateIO;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import crypto.SecretShare;
 
@@ -12,13 +11,13 @@ import party.Party;
 
 public class Polynomial {
 
-	private Vector<Integer> coef;
+	private ArrayList<Integer> coef;
 
 	public Polynomial() {
 	}
 
 	// change to private!!
-	public Polynomial(Vector<Integer> coef) {
+	public Polynomial(ArrayList<Integer> coef) {
 		this.coef = coef;
 	}
 
@@ -27,12 +26,6 @@ public class Polynomial {
 		// System.out.println("value = " + value);
 		int ans = coef.get(0);
 		for (int i = 1; i < coef.size(); i++) {
-			// System.out.println("coef.get(i)" + coef.get(i));
-			// System.out.println("value = " + value);
-			// System.out.println("i = " + i);
-			// System.out.println("(value ^ i)" + (value ^ i));
-			// System.out.println(" i = " + i + " x = " + (coef.get(i) * (value
-			// ^ i)));
 			ans = ans
 					+ (coef.get(i) * (int) (Math
 							.pow((double) value, (double) i)));
@@ -43,7 +36,7 @@ public class Polynomial {
 
 	// create a polynomial with degree t
 	public static Polynomial create(int secret) {
-		Vector<Integer> coefs = new Vector<Integer>();
+		ArrayList<Integer> coefs = new ArrayList<Integer>();
 		for (int i = 0; i <= Party.t; i++) {
 			int coef = (int) (Math.random() * 100);
 			coefs.add(i, Gate.modField(coef));

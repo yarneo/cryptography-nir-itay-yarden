@@ -39,5 +39,13 @@ public abstract class Gate {
 	public ArrayList<GateIO> getResult(){
 		return result;
 	}
+	
+	public GateIO getIOByIndex(int i){
+		for (int j = 0; j < result.size(); j++) {
+			if(result.get(j).getIndex() == i)
+				return result.get(j);
+		}
+		return null;
+	}
 
 }
