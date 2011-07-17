@@ -94,7 +94,8 @@ public class MultiplicationGate extends Gate {
 		double counter = 1;
 		for (int j = 1; j <= Party.n; j++) {
 			if(j!=i){
-				counter = counter * ((double)-j/ (double)(i-j));
+				counter = counter * Polynomial.fieldDiv(-j, i-j); 
+				//((double)-j/ (double)(i-j));
 			}
 		}
 		return Gate.modField((int)counter);

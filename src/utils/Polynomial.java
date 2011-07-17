@@ -81,7 +81,7 @@ public class Polynomial {
 				  li[i] = (double)shares.get(i).y;
 				  for(int j=0;j<shares.size();j++) {
 					  if(j!=i) {
-						 li[i] *= (0.0-((double)shares.get(j).x))/(((double)shares.get(i).x)-((double)shares.get(j).x));
+						 li[i] *= fieldDiv(shares.get(j).x, shares.get(i).x - shares.get(j).x) ;
 					  }
 				  }
 			  }
@@ -89,6 +89,29 @@ public class Polynomial {
 				  ans += li[i];
 			  }
 			  return (int)ans;
+	}
+	
+
+//  return array [d, a, b] such that d = gcd(p, q), ap + bq = d
+	public static int[] extendedGcd(int p, int q) {
+	      if (q == 0)
+	         return new int[] { p, 1, 0 };
+	      int[] vals = extendedGcd(q, p % q);
+	      int d = vals[0];
+	      int a = vals[2];
+	      int b = vals[1] - (p / q) * vals[2];
+	      return new int[] { d, a, b };
+	   }
+
+	// division of first and second above the field (first/second)mod FIELD
+	// first we get the a coef from extended gcd (a*x + b*FIELD)
+	// that equal to a*x = 1 (b*FIELD = 0) = thus a=x^-1
+	// return a*first
+	public static int fieldDiv(int first, int second)
+	{
+		// get coef a for div 1 and the field
+		int a = extendedGcd(second, Party.field)[1];
+		return Gate.modField(a*first);
 	}
 	
 }
