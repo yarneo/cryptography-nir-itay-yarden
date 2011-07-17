@@ -12,8 +12,7 @@ public class Party {
 	public final static int t = 1; // number of Affiliates rivals
 	public final static int n = 2 * t + 1; // number of parties
 	// NOTICE - the parties are indexed by 1, .. , n (not by zero)
-	//public final static int field = 2 * n + 1;
-	public final static int field = 10000; // just for testing;
+	public static int field = 0;
 
 
 	public static ArrayList<Party> parties = new ArrayList<Party>();
@@ -29,6 +28,14 @@ public class Party {
 		PartyIndex++;
 		parties.add(this);
 		shares = new ArrayList<SecretShare>();
+		
+		if(field == 0){
+			field = 2*n + 1;
+			while(!isPrime(field)){
+				field ++;
+			}
+		}
+		
 	}
 	
 	public Party(int secret) {
@@ -56,5 +63,23 @@ public class Party {
 	public ArrayList<SecretShare> getShares() {
 		return shares;
 	}
+	
+    private boolean isPrime(int n) {
+        if (n <= 1) {
+            return false;
+        }
+        if (n == 2) {
+            return true;
+        }
+        if (n % 2 == 0) {
+            return false;
+        }
+        for (int i = 3; i <= Math.sqrt(n) + 1; i = i + 2) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

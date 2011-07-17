@@ -20,7 +20,7 @@ public class TestMain {
 		System.out.println(a[0] + " " + a[1] + " " + a[2]);
 		
 		//		setup();
-		testMultiplicationGate();
+//		testMultiplicationGate();
 //		testConstCompute();	
 //		System.out.println("field = " + Party.field);		
 //		Vector<Integer> coef = new Vector<Integer>();
