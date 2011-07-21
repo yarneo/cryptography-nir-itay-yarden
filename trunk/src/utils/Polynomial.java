@@ -74,20 +74,26 @@ public class Polynomial {
 
 	public static int computeSecret(ArrayList<SecretShare> shares) {
 		double ans = 0.0;
+		double[] lagrangeCoef = calcLagrangeCoef(shares);
+		for (int i = 0; i < shares.size(); i++) {
+			ans += shares.get(i).y*lagrangeCoef[i];
+		}
+		return Gate.modField((int)ans);
+	}
+
+	private static double[] calcLagrangeCoef(ArrayList<SecretShare> shares) {
 		double[] li = new double[shares.size()];
 		for (int i = 0; i < shares.size(); i++) {
-			li[i] = (double) shares.get(i).y;
+			//li[i] = (double) shares.get(i).y;
+			li[i] = 1.0; // init li[i]
 			for (int j = 0; j < shares.size(); j++) {
 				if (j != i) {
-					li[i] *= fieldDiv(shares.get(j).x, shares.get(i).x
-							- shares.get(j).x);
+					//li[i] *= (double)shares.get(j).x / (double)(shares.get(i).x - shares.get(j).x);
+					li[i] *= fieldDiv(0 - shares.get(j).x, shares.get(i).x - shares.get(j).x);
 				}
 			}
 		}
-		for (int i = 0; i < li.length; i++) {
-			ans += li[i];
-		}
-		return (int) ans;
+		return li;
 	}
 
 	// return array [d, a, b] such that d = gcd(p, q), ap + bq = d
