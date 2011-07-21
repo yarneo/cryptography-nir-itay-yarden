@@ -26,9 +26,7 @@ public class Polynomial {
 		// System.out.println("value = " + value);
 		int ans = coef.get(0);
 		for (int i = 1; i < coef.size(); i++) {
-			ans = ans
-					+ (coef.get(i) * (int) (Math
-							.pow((double) value, (double) i)));
+			ans += (coef.get(i) * (int) (Math.pow((double) value, (double) i)));
 		}
 		// System.out.println("result = " + ans);
 		return Gate.modField(ans);
@@ -84,14 +82,13 @@ public class Polynomial {
 	private static double[] calcLagrangeCoef(ArrayList<SecretShare> shares) {
 		double[] li = new double[shares.size()];
 		for (int i = 0; i < shares.size(); i++) {
-			//li[i] = (double) shares.get(i).y;
-			li[i] = 1.0; // init li[i]
+			li[i] = 1.0; // init li[i] (1 is the init value for multiplication 
 			for (int j = 0; j < shares.size(); j++) {
 				if (j != i) {
-					//li[i] *= (double)shares.get(j).x / (double)(shares.get(i).x - shares.get(j).x);
 					li[i] *= fieldDiv(0 - shares.get(j).x, shares.get(i).x - shares.get(j).x);
 				}
 			}
+			//System.out.println("l[" + i + "] is:" + li[i]);
 		}
 		return li;
 	}
@@ -113,11 +110,11 @@ public class Polynomial {
 	// return a*first
 	public static int fieldDiv(int first, int second) {
 		// get coef a for div 1 and the field
-		int a = extendedGcd(second, Party.field)[1];
+		int a = extendedGcd(Gate.modField(second), Party.field)[1];
 		if (Gate.modField(second) == 0){
 			throw new ArithmeticException("in fieldDiv, division by zero");
 		}
-		return Gate.modField(a * first);
+		return Gate.modField(a * Gate.modField(first));
 	}
 
 }
