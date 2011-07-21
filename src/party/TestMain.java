@@ -23,51 +23,27 @@ public class TestMain {
 		Party p2 = new Party(2);
 		Party p3 = new Party(3);
 		System.out.println("field = " + Party.field);
-		System.out.println("n = " + Party.n);
-
-		// the polynomial
-		ArrayList<Integer> coefs = new ArrayList<Integer>();
-		coefs.add(0, 4);
-		coefs.add(1, 5);
-
-		// the variable
-		int x = 0;
-		System.out.println("x = " + x);
-		testPolynom(coefs, x);
+		
 	}
 
-	// need t+1 coefs, assuming n = 3
+	// create 3 parties, need t+1 coefs, for any x in field
 	private static void testPolynom(ArrayList<Integer> coefs, int x) {
-		ArrayList<SecretShare> shares = new ArrayList<SecretShare>();
-//		ArrayList<SecretShare> shares = Polynomial.createShareSecret(x);
-//		for (int i = 0; i < shares.size(); i++) {
-//			System.out.println(shares.get(i));
-//		}
-		shares.add(0, new SecretShare(1, 1));
-		shares.add(1, new SecretShare(2, 2));
-		shares.add(2, new SecretShare(3, 3));
-		
-//		for (int i = 0; i < shares.size(); i++) {
-//			System.out.println(shares.get(i));
-//		}
-
+		ArrayList<SecretShare> shares = Polynomial.createShareSecret(x);
 		ArrayList<GateIO> input = new ArrayList<GateIO>();
+
 		// 0
 		ArrayList<SecretShare> g0Secrests = new ArrayList<SecretShare>();
 		g0Secrests.add(0, shares.get(0));
-		//System.out.println("g0 = " + shares.get(0));
 		GateIO g0 = new GateIO(0, g0Secrests);
 
 		// 1
 		ArrayList<SecretShare> g1Secrests = new ArrayList<SecretShare>();
 		g1Secrests.add(0, shares.get(1));
-		//System.out.println("g1 = " + shares.get(1));
 		GateIO g1 = new GateIO(0, g1Secrests);
 
 		// 2
 		ArrayList<SecretShare> g2Secrests = new ArrayList<SecretShare>();
 		g2Secrests.add(0, shares.get(2));
-		//System.out.println("g2 = " + shares.get(2));
 		GateIO g2 = new GateIO(0, g2Secrests);
 
 		input.add(g0);
@@ -75,18 +51,12 @@ public class TestMain {
 		input.add(g2);
 
 		PolynomialGate polyGate = new PolynomialGate(input, coefs);
-//		polyGate.compute();
-//		ArrayList<SecretShare> res = new ArrayList<SecretShare>();
-//		for (int i = 0; i < polyGate.result.size(); i++) {
-//			res.add(i, polyGate.result.get(i).value.get(0));
-//			System.out.print(polyGate.result.get(i).value.get(0) + ", ");
-//		}
-		
-		polyGate.checkXi(1);
-		polyGate.checkXi(2);
-		polyGate.checkXi(3);
-		polyGate.checkXi(4);
-		polyGate.checkXi(5);
+		polyGate.compute();
+		ArrayList<SecretShare> res = new ArrayList<SecretShare>();
+		for (int i = 0; i < polyGate.result.size(); i++) {
+			res.add(i, polyGate.result.get(i).value.get(0));
+			System.out.print(polyGate.result.get(i).value.get(0) + ", ");
+		}
 	}
 
 	public static void testMultiplicationGate() {
