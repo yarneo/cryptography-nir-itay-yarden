@@ -12,33 +12,39 @@ public class PolynomialGate extends Gate {
 
 	public PolynomialGate(ArrayList<GateIO> input, ArrayList<Integer> coefs) {
 		super(input);
-		this.coef = coef;
+		this.coef = coefs;
 	}
 
 	// input - secretShares of x (the variable)
 	// output - secretShares of the result ( P(x) )
 	@Override
 	public void compute() {
-		
+
 		// get the input(x) into comfortable data structure
 		ArrayList<SecretShare> x = new ArrayList<SecretShare>();
-		for (GateIO in: this.input) {
-			x.add(in.getIndex(), in.getValue().get(0));			
+		for (int i = 0; i < this.input.size(); i++) {
+			x.add(i, this.input.get(i).getValue().get(0));
+			System.out.print(" i = " + i + " value = " + this.input.get(i).getValue().get(0));
 		}
-		
-		ArrayList<SecretShare> output = Polynomial.createShareSecret(coef.get(0));		
-		//compute the polynomial[x]
-		for (int i = 1; i < coef.size(); i++) {		
-			//x^i shares
+		System.out.println();
+
+		ArrayList<SecretShare> output = Polynomial.createShareSecret(this.coef
+				.get(0));
+		System.out.println("out is " + this.coef.get(0));
+
+		// compute the polynomial[x]
+		for (int i = 1; i < coef.size(); i++) {
+			// x^i shares
 			ArrayList<GateIO> xInI = getxInIPower(i, x);
 			ArrayList<SecretShare> xInIShares = new ArrayList<SecretShare>();
 			for (GateIO gateIO : xInI) {
 				xInIShares.add(gateIO.getIndex(), gateIO.value.get(0));
 			}
-			
+
 			// coef[i] shares
-			ArrayList<SecretShare> coefIShares = Polynomial.createShareSecret(coef.get(i));
-			
+			ArrayList<SecretShare> coefIShares = Polynomial
+					.createShareSecret(coef.get(i));
+
 			// create multInput
 			ArrayList<GateIO> multInput = new ArrayList<GateIO>();
 			for (int j = 0; j < xInIShares.size(); j++) {
@@ -49,7 +55,7 @@ public class PolynomialGate extends Gate {
 				multInput.add(j, multPart);
 			}
 			Gate mult = new MultiplicationGate(multInput);
-			
+
 			// coefs[i] * x^i
 			mult.compute();
 
@@ -59,19 +65,19 @@ public class PolynomialGate extends Gate {
 				ArrayList<SecretShare> addShares = new ArrayList<SecretShare>();
 				// the current
 				addShares.add(mult.getIOByIndex(j).value.get(0));
-				//  the sum so far
+				// the sum so far
 				addShares.add(output.get(j));
 				GateIO gateParty = new GateIO(j, addShares);
-				
+
 				addInput.add(j, gateParty);
 				Gate add = new AdditionGate(addInput);
 				add.compute();
-				//update output
+				// update output
 				for (GateIO gateIo : add.result) {
 					output.set(gateIo.getIndex(), gateIo.value.get(0));
 				}
 			}
-			
+
 			// update result
 			result = new ArrayList<GateIO>();
 			for (int j = 0; j < output.size(); j++) {
@@ -81,27 +87,26 @@ public class PolynomialGate extends Gate {
 				result.add(j, g);
 			}
 		}
-	
 	}
-	
+
 	// get x^i for i >=1
-	private ArrayList<GateIO> getxInIPower(int i, ArrayList<SecretShare> x){
-		if ( i <= 1){
+	private ArrayList<GateIO> getxInIPower(int i, ArrayList<SecretShare> x) {
+		if (i <= 1) {
 			ArrayList<GateIO> result = new ArrayList<GateIO>();
 			for (int j = 0; j < x.size(); j++) {
 				SecretShare sj = x.get(j);
 				ArrayList<SecretShare> sjList = new ArrayList<SecretShare>();
 				sjList.add(sj);
-				result.add(j, new GateIO(j, sjList));				
+				result.add(j, new GateIO(j, sjList));
 			}
 			return result;
-		}		
-		//x^(i-1)
-		ArrayList<GateIO> xInIMinusOne = getxInIPower(i-1, x);
+		}
+		// x^(i-1)
+		ArrayList<GateIO> xInIMinusOne = getxInIPower(i - 1, x);
 		// x^1
 		ArrayList<GateIO> xInOne = getxInIPower(1, x);
-		
-		//what each client has (his share of x^1 and his share of x^(i-1))
+
+		// what each client has (his share of x^1 and his share of x^(i-1))
 		ArrayList<GateIO> clientParts = new ArrayList<GateIO>();
 		for (int j = 0; j < xInIMinusOne.size(); j++) {
 			ArrayList<SecretShare> clientShares = new ArrayList<SecretShare>();
@@ -109,10 +114,24 @@ public class PolynomialGate extends Gate {
 			clientShares.add(1, xInOne.get(j).value.get(0));
 			GateIO clientPart = new GateIO(j, clientShares);
 			clientParts.add(j, clientPart);
-		}	
+		}
 		Gate mult = new MultiplicationGate(clientParts);
 		mult.compute();
 		return mult.result;
+	}
+
+	public void checkXi(int i) {
+		
+		System.out.println("check x in power of " + i);
+		ArrayList<SecretShare> x = new ArrayList<SecretShare>();
+		for (int k = 0; k < this.input.size(); k++) {
+			x.add(k, this.input.get(k).getValue().get(0));
+		}
+		ArrayList<GateIO> res = getxInIPower(i, x);
+		for (int j = 0; j <res.size() ; j++) {
+			System.out.print(res.get(j).value.get(0) + ", ");
+		}
+		System.out.println();
 	}
 
 }
