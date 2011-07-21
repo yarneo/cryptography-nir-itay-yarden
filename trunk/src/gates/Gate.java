@@ -11,7 +11,8 @@ public abstract class Gate {
 	public static int forId = 1;
 	public int id;
 	protected ArrayList<GateIO> input;
-	protected ArrayList<GateIO> result;
+	//change to protected
+	public ArrayList<GateIO> result;
 	//protected ArrayList<Gate> output; // output gates
 	
 	public Gate(ArrayList<GateIO> input/*, ArrayList<Gate> output*/){

@@ -23,7 +23,6 @@ public class Polynomial {
 
 	// get val at point value
 	public int computeCoef(int value) {
-		// System.out.println("value = " + value);
 		int ans = coef.get(0);
 		for (int i = 1; i < coef.size(); i++) {
 			ans += (coef.get(i) * (int) (Math.pow((double) value, (double) i)));
@@ -70,6 +69,7 @@ public class Polynomial {
 		return result;
 	}
 
+	// LaGrange computation
 	public static int computeSecret(ArrayList<SecretShare> shares) {
 		double ans = 0.0;
 		double[] lagrangeCoef = calcLagrangeCoef(shares);
