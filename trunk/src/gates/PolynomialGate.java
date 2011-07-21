@@ -24,13 +24,10 @@ public class PolynomialGate extends Gate {
 		ArrayList<SecretShare> x = new ArrayList<SecretShare>();
 		for (int i = 0; i < this.input.size(); i++) {
 			x.add(i, this.input.get(i).getValue().get(0));
-			System.out.print(" i = " + i + " value = " + this.input.get(i).getValue().get(0));
 		}
-		System.out.println();
 
 		ArrayList<SecretShare> output = Polynomial.createShareSecret(this.coef
 				.get(0));
-		System.out.println("out is " + this.coef.get(0));
 
 		// compute the polynomial[x]
 		for (int i = 1; i < coef.size(); i++) {
@@ -119,19 +116,4 @@ public class PolynomialGate extends Gate {
 		mult.compute();
 		return mult.result;
 	}
-
-	public void checkXi(int i) {
-		
-		System.out.println("check x in power of " + i);
-		ArrayList<SecretShare> x = new ArrayList<SecretShare>();
-		for (int k = 0; k < this.input.size(); k++) {
-			x.add(k, this.input.get(k).getValue().get(0));
-		}
-		ArrayList<GateIO> res = getxInIPower(i, x);
-		for (int j = 0; j <res.size() ; j++) {
-			System.out.print(res.get(j).value.get(0) + ", ");
-		}
-		System.out.println();
-	}
-
 }
