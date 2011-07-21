@@ -27,11 +27,7 @@ public class TestMain {
 		System.out.println(a[0] + " " + a[1] + " " + a[2]);
 		System.out.println(Polynomial.fieldDiv(3, 5));
 		*/
-		testAdditionCompute();
-		//testConstCompute();	
-//		setup();
-//		testMultiplicationGate();
-//		testConstCompute();	
+		
 //		System.out.println("field = " + Party.field);		
 //		Vector<Integer> coef = new Vector<Integer>();
 //		coef.add(0, -40);
@@ -46,46 +42,8 @@ public class TestMain {
 	}
 	public static void testMultiplicationGate()
 	{
-		Party p1 = new Party(6);
-		Party p2 = new Party(21);
-		Party p3 = new Party(3);
-		ArrayList<SecretShare> ss1 = p1.shareSecret();
-		ArrayList<SecretShare> ss2 = p2.shareSecret();
-		ArrayList<GateIO> input2 = new ArrayList<GateIO>(); 
-		for(int i=0;i<ss1.size();i++) {
-			ArrayList<SecretShare> tmpparty = new ArrayList<SecretShare>();
-			tmpparty.add(0,ss1.get(i));
-			tmpparty.add(1,ss2.get(i));
-			System.out.println("input secret shares for party" + i + " is:" + ss1.get(i) + " " + ss2.get(i));
-			GateIO tmpgate = new GateIO(i,tmpparty);
-			input2.add(tmpgate);
-		}
-		MultiplicationGate gate = new MultiplicationGate(input2);
+		MultiplicationGate gate = new MultiplicationGate(input);
 		gate.compute();
-		ArrayList<SecretShare> outcome = new ArrayList<SecretShare>();
-		for(GateIO gio : gate.getResult()) {
-			//System.out.println(gio.getValue().size());
-			outcome.add(gio.getValue().get(0));
-		}
-		System.out.println(Polynomial.computeSecret(outcome));
-		input2 = new ArrayList<GateIO>(); 
-		ArrayList<SecretShare> ss3 = p3.shareSecret();
-		for(int i=0;i<ss3.size();i++) {
-			ArrayList<SecretShare> tmpparty = new ArrayList<SecretShare>();
-			tmpparty.add(0,ss3.get(i));
-			tmpparty.add(1,outcome.get(i));
-			System.out.println("input secret shares for party" + i + " is:" + ss3.get(i) + " " + outcome.get(i));
-			GateIO tmpgate = new GateIO(i,tmpparty);
-			input2.add(tmpgate);
-		}
-		MultiplicationGate gate2 = new MultiplicationGate(input2);
-		gate2.compute();
-		ArrayList<SecretShare> outcome2 = new ArrayList<SecretShare>();
-		for(GateIO gio : gate2.getResult()) {
-			//System.out.println(gio.getValue().size());
-			outcome2.add(gio.getValue().get(0));
-		}
-		System.out.println(Polynomial.computeSecret(outcome2));
 	}
 	public static void testConstCompute()
 	{	
@@ -98,12 +56,7 @@ public class TestMain {
 		ArrayList<GateIO> arr = new ArrayList<GateIO>();
 		arr.add(forP1);
 		ConstMult mult = new ConstMult(arr, constant);
-		mult.compute();
-		ArrayList<SecretShare> outcome = new ArrayList<SecretShare>();
-		for(GateIO gio : mult.getResult()) {
-			outcome.add(gio.getValue().get(0));
-		}
-		System.out.println(Polynomial.computeSecret(outcome));
+		mult.compute();	
 		
 		/*ArrayList<GateIO> input = new ArrayList<GateIO>();
 		int constant = 5;
@@ -169,7 +122,6 @@ public class TestMain {
 	
 	public static void setup()
 	{
-		
 		Party p1 = new Party(3); // create p1 with secert 3
 		Party p2 = new Party(2); // create p2 with secert 2
 		Party p3 = new Party(5); // create p3 with secert 5
