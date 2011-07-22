@@ -10,7 +10,7 @@ import crypto.SecretShare;
 public class Party {
 
 	public final static int t = 1; // number of Affiliates rivals
-	public final static int n = 2 * t + 1; // number of parties
+	public final static int n = 4; // number of parties
 	// NOTICE - the parties are indexed by 1, .. , n (not by zero)
 	public static int field = 0;
 
@@ -19,6 +19,7 @@ public class Party {
 
 	private int secret;
 	private int index;
+	private ArrayList<Integer> vote;
 	private ArrayList<SecretShare> shares;
 
 	public Party() {
@@ -50,6 +51,10 @@ public class Party {
 				field++;
 			}
 		}
+	}
+	
+	public Party(ArrayList<Integer> vote) {
+		this.vote = vote;
 	}
 
 	// share the local secret with the other parties
