@@ -35,7 +35,7 @@ public class Polynomial {
 	public static Polynomial create(int secret) {
 		ArrayList<Integer> coefs = new ArrayList<Integer>();
 		for (int i = 0; i <= Party.t; i++) {
-			int coef = (int) (Math.random() * 100);
+			int coef = (int) (Math.random() * Party.field);
 			coefs.add(i, Gate.modField(coef));
 			// System.out.println("coef " + i + ": " + coef);
 		}
@@ -69,28 +69,9 @@ public class Polynomial {
 		return result;
 	}
 
-	// LaGrange computation
+	// LaGrange computation (in 0)
 	public static int computeSecret(ArrayList<SecretShare> shares) {
-		double ans = 0.0;
-		double[] lagrangeCoef = calcLagrangeCoef(shares);
-		for (int i = 0; i < shares.size(); i++) {
-			ans += shares.get(i).y*lagrangeCoef[i];
-		}
-		return Gate.modField((int)ans);
-	}
-
-	private static double[] calcLagrangeCoef(ArrayList<SecretShare> shares) {
-		double[] li = new double[shares.size()];
-		for (int i = 0; i < shares.size(); i++) {
-			li[i] = 1.0; // init li[i] (1 is the init value for multiplication 
-			for (int j = 0; j < shares.size(); j++) {
-				if (j != i) {
-					li[i] *= fieldDiv(0 - shares.get(j).x, shares.get(i).x - shares.get(j).x);
-				}
-			}
-			//System.out.println("l[" + i + "] is:" + li[i]);
-		}
-		return li;
+		return new LaGrange().computeLagrange(shares, 0);
 	}
 
 	// return array [d, a, b] such that d = gcd(p, q), ap + bq = d

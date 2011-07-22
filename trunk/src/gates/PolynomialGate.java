@@ -65,24 +65,26 @@ public class PolynomialGate extends Gate {
 				// the sum so far
 				addShares.add(output.get(j));
 				GateIO gateParty = new GateIO(j, addShares);
-
 				addInput.add(j, gateParty);
-				Gate add = new AdditionGate(addInput);
-				add.compute();
-				// update output
-				for (GateIO gateIo : add.result) {
-					output.set(gateIo.getIndex(), gateIo.value.get(0));
-				}
 			}
 
-			// update result
-			result = new ArrayList<GateIO>();
-			for (int j = 0; j < output.size(); j++) {
-				ArrayList<SecretShare> resJ = new ArrayList<SecretShare>();
-				resJ.add(output.get(j));
-				GateIO g = new GateIO(j, resJ);
-				result.add(j, g);
+			Gate add = new AdditionGate(addInput);
+			add.compute();
+
+			// update output
+			for (GateIO gateIo : add.result) {
+				output.set(gateIo.getIndex(), gateIo.value.get(0));
 			}
+			
+		}
+
+		// update result
+		result = new ArrayList<GateIO>();
+		for (int j = 0; j < output.size(); j++) {
+			ArrayList<SecretShare> resJ = new ArrayList<SecretShare>();
+			resJ.add(output.get(j));
+			GateIO g = new GateIO(j, resJ);
+			result.add(j, g);
 		}
 	}
 

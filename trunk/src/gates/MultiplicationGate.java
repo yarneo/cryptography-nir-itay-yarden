@@ -50,9 +50,9 @@ public class MultiplicationGate extends Gate {
 		
 		for (SecretShare mult : localMults) {
 			ArrayList<SecretShare> yiShares = Polynomial.createShareSecret(mult.y);
-			for (int i = 0; i < yiShares.size(); i++) {
+//			for (int i = 0; i < yiShares.size(); i++) {
 				//System.out.println("i = " + i + " y = " + yiShares.get(i));
-			}
+//			}
 			for (int i = 0; i < yiShares.size(); i++) {
 				ArrayList<SecretShare> tmp = localMultsShare.get(i);
 				tmp.add(yiShares.get(i));

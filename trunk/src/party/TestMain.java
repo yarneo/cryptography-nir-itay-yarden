@@ -3,15 +3,14 @@ package party;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import circuit.Circuit;
-
+import utils.LaGrange;
 import utils.Polynomial;
+import utils.PolynomialFunctionLagrangeForm;
 import crypto.SecretShare;
-import functions.Average;
-import functions.GlobalAgreement;
 import gates.AdditionGate;
 import gates.ConstMult;
 import gates.GateIO;
+import gates.MaxGate;
 import gates.MultiplicationGate;
 import gates.PolynomialGate;
 
@@ -23,88 +22,57 @@ public class TestMain {
 	public static ArrayList<GateIO> input = new ArrayList<GateIO>();
 
 	public static void main(String[] args) {
-		//testCircuit();
-		//testAverage();
-		//testGlobalAgreement();
-		testSubstract();
+		testMax(1, 2);	
 	}
-	
-	public static void testFrequency() {
-		int numOfContestents = 2;
-		ArrayList<Integer> vote = new ArrayList<Integer>();
-		vote.add(0);
-		vote.add(1);
-		Party p1 = new Party(vote);
-		Party p2 = new Party(vote);
-		Party p3 = new Party(vote);
-		vote.set(0, 1);
-		vote.set(1, 0);
-		Party p4 = new Party(vote);
-	}
-	
-	
-	public static void testSubstract() {
-		Party p1 = new Party(7);
-		Party p2 = new Party(4);
-		Circuit circuit = new Circuit();
-		
-		int ret = circuit.addConstGate(p2.shareSecret(), -1);
-		int ret2 = circuit.addAdditionGate(ret, p1.shareSecret());
-		
-		circuit.computeCircuit();
-		ArrayList<SecretShare> out = circuit.getOutput(ret2);
-		System.out.println(Polynomial.computeSecret(out));
-	}
-	
-	public static void testCircuit() {
+
+	public static void testMax(int a, int b) {
 		Party p1 = new Party(1);
-		Party p2 = new Party(3);
-		Party p3 = new Party(2);
-		Party p4 = new Party(2);
-		Circuit circuit = new Circuit();
-		
-		int ret = circuit.addMulGate(p1.shareSecret()); //1*3
-		circuit.addSecretShare(ret, p2.shareSecret());
-		
-		int ret2 = circuit.addMulGate(p3.shareSecret()); //2*2
-		circuit.addSecretShare(ret2, p4.shareSecret());
-				
-		int ret3 = circuit.addAdditionGate(ret, null); //(1*3)+(2*2)
-		circuit.setNext(ret2, ret3);
-		
-		circuit.computeCircuit();
-		ArrayList<SecretShare> out = circuit.getOutput(ret3);
-		System.out.println(Polynomial.computeSecret(out));
+		Party p2 = new Party(2);
+		Party p3 = new Party(3);
+		System.out.println("field = " + Party.field);
+
+		ArrayList<SecretShare> aShares = Polynomial.createShareSecret(a);
+		ArrayList<SecretShare> bShares = Polynomial.createShareSecret(b);
+		ArrayList<GateIO> input = new ArrayList<GateIO>();
+
+		// 0
+		ArrayList<SecretShare> g0Secrests = new ArrayList<SecretShare>();
+		g0Secrests.add(0, aShares.get(0));
+		g0Secrests.add(1, bShares.get(0));
+		GateIO g0 = new GateIO(0, g0Secrests);
+
+		// 1
+		ArrayList<SecretShare> g1Secrests = new ArrayList<SecretShare>();
+		g1Secrests.add(0, aShares.get(1));
+		g1Secrests.add(1, bShares.get(1));
+		GateIO g1 = new GateIO(0, g1Secrests);
+
+		// 2
+		ArrayList<SecretShare> g2Secrests = new ArrayList<SecretShare>();
+		g2Secrests.add(0, aShares.get(2));
+		g2Secrests.add(1, bShares.get(2));
+		GateIO g2 = new GateIO(0, g2Secrests);
+
+		input.add(g0);
+		input.add(g1);
+		input.add(g2);
+
+		MaxGate max = new MaxGate(input);
+		max.compute();
+		ArrayList<SecretShare> res = new ArrayList<SecretShare>();
+		for (int i = 0; i < max.result.size(); i++) {
+			res.add(i, max.getIOByIndex(i).value.get(0));
+		}
+		System.out.println("the max = " + Polynomial.computeSecret(res));
 	}
-	
-	public static void testAverage() {
-		Party p1 = new Party(1);
-		Party p2 = new Party(3);
-		Party p3 = new Party(2);
-		Party p4 = new Party(2);
-		ArrayList<Party> parties = new ArrayList<Party>();
-		parties.add(p1);
-		parties.add(p2);
-		parties.add(p3);
-		parties.add(p4);
-		System.out.println((Polynomial.computeSecret(Average.average(parties)))/parties.size());
-	}
-	
-	public static void testGlobalAgreement() {
-		Party p1 = new Party(1);
-		Party p2 = new Party(1);
-		Party p3 = new Party(1);
-		Party p4 = new Party(1);
-		ArrayList<Party> parties = new ArrayList<Party>();
-		parties.add(p1);
-		parties.add(p2);
-		parties.add(p3);
-		parties.add(p4);
-		System.out.println((Polynomial.computeSecret(GlobalAgreement.globalAgreement(parties))));
-	}
-	
-	// create 3 parties, need t+1 coefs, for any x in field
+
+	// need t+1 coefs, for any x in field
 	private static void testPolynom(ArrayList<Integer> coefs, int x) {
+		Party p1 = new Party(1);
+		Party p2 = new Party(2);
+		Party p3 = new Party(3);
+		System.out.println("field = " + Party.field);
+		
 		ArrayList<SecretShare> shares = Polynomial.createShareSecret(x);
 		ArrayList<GateIO> input = new ArrayList<GateIO>();
 
@@ -137,46 +105,8 @@ public class TestMain {
 	}
 
 	public static void testMultiplicationGate() {
-		Party p1 = new Party(6);
-		Party p2 = new Party(21);
-		Party p3 = new Party(3);
-		ArrayList<SecretShare> ss1 = p1.shareSecret();
-		ArrayList<SecretShare> ss2 = p2.shareSecret();
-		ArrayList<GateIO> input2 = new ArrayList<GateIO>();
-		for(int i=0;i<ss1.size();i++) {
-			ArrayList<SecretShare> tmpparty = new ArrayList<SecretShare>();
-			tmpparty.add(0,ss1.get(i));
-			tmpparty.add(1,ss2.get(i));
-			System.out.println("input secret shares for party" + i + " is:" + ss1.get(i) + " " + ss2.get(i));
-			GateIO tmpgate = new GateIO(i,tmpparty);
-			input2.add(tmpgate);
-		}
-		MultiplicationGate gate = new MultiplicationGate(input2);
+		MultiplicationGate gate = new MultiplicationGate(input);
 		gate.compute();
-		ArrayList<SecretShare> outcome = new ArrayList<SecretShare>();
-		for(GateIO gio : gate.getResult()) {
-			//System.out.println(gio.getValue().size());
-			outcome.add(gio.getValue().get(0));
-		}
-		System.out.println(Polynomial.computeSecret(outcome));
-		input2 = new ArrayList<GateIO>();
-		ArrayList<SecretShare> ss3 = p3.shareSecret();
-		for(int i=0;i<ss3.size();i++) {
-			ArrayList<SecretShare> tmpparty = new ArrayList<SecretShare>();
-			tmpparty.add(0,ss3.get(i));
-			tmpparty.add(1,outcome.get(i));
-			System.out.println("input secret shares for party" + i + " is:" + ss3.get(i) + " " + outcome.get(i));
-			GateIO tmpgate = new GateIO(i,tmpparty);
-			input2.add(tmpgate);
-		}
-		MultiplicationGate gate2 = new MultiplicationGate(input2);
-		gate2.compute();
-		ArrayList<SecretShare> outcome2 = new ArrayList<SecretShare>();
-		for(GateIO gio : gate2.getResult()) {
-			//System.out.println(gio.getValue().size());
-			outcome2.add(gio.getValue().get(0));
-		}
-		System.out.println(Polynomial.computeSecret(outcome2));
 	}
 
 	public static void testConstCompute() {
