@@ -19,9 +19,9 @@ public class AdditionGate extends Gate {
 			GateIO out = new GateIO(in.getIndex());
 			SecretShare outValue = new SecretShare(0, 0);
 			for (SecretShare sIn : in.value) {
-				outValue.x = modField(outValue.x +  sIn.x);
 				outValue.y = modField(outValue.y +  sIn.y);
 			}
+			outValue.x = modField(in.value.get(0).x);
 			out.value.add(outValue);
 			//System.out.println("out value is: (" + outValue.x + ","+ outValue.y + ")");
 			this.result.add(out);			
