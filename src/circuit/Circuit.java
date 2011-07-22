@@ -102,7 +102,7 @@ public class Circuit {
 			}
 		}
 
-		gates.add(new Sextuple(al,gateIndex,-1,2));
+		gates.add(new Sextuple(al,gateIndex,-1,2,constant));
 		return gateIndex;
 	}
 
