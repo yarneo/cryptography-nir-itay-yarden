@@ -75,12 +75,12 @@ public class PolynomialFunctionLagrangeForm {
 	public PolynomialFunctionLagrangeForm(double x[], double y[]) {
 		// Normalize to the field
 		for (int i = 0; i < y.length; i++) {
-			y[i] = Gate.modField((int)y[i]);
+			y[i] = Gate.modField((int) y[i]);
 		}
 		for (int i = 0; i < x.length; i++) {
-			x[i] = Gate.modField((int)x[i]);
+			x[i] = Gate.modField((int) x[i]);
 		}
-		
+
 		this.x = new double[x.length];
 		this.y = new double[y.length];
 		System.arraycopy(x, 0, this.x, 0, x.length);
@@ -99,13 +99,13 @@ public class PolynomialFunctionLagrangeForm {
 	 * @see UnivariateRealFunction#value(double)
 	 */
 	public double value(double z) {
-		
-//		System.out.println("print x");
-//		for (int i = 0; i < x.length; i++) {
-//			System.out.println(x[i]);
-//		}
-//		System.out.println("done");
-		return evaluate(x, y, Gate.modField((int)z));
+
+		// System.out.println("print x");
+		// for (int i = 0; i < x.length; i++) {
+		// System.out.println(x[i]);
+		// }
+		// System.out.println("done");
+		return evaluate(x, y, Gate.modField((int) z));
 	}
 
 	/**
@@ -131,11 +131,11 @@ public class PolynomialFunctionLagrangeForm {
 		}
 		double[] out = new double[coefficients.length];
 		System.arraycopy(coefficients, 0, out, 0, coefficients.length);
-		
+
 		for (int i = 0; i < out.length; i++) {
-			out[i] = Gate.modField((int)out[i]);
+			out[i] = Gate.modField((int) out[i]);
 		}
-		
+
 		return out;
 	}
 
@@ -195,8 +195,8 @@ public class PolynomialFunctionLagrangeForm {
 					// j);
 				}
 				// update the difference arrays
-				//System.out.println("divider = " + divider);
-				w = Polynomial.fieldDiv((int)(c[j + 1] - d[j]), (int)divider);
+				// System.out.println("divider = " + divider);
+				w = Polynomial.fieldDiv((int) (c[j + 1] - d[j]), (int) divider);
 				// w = (c[j + 1] - d[j]) / divider;
 				c[j] = tc * w;
 				d[j] = td * w;
@@ -210,7 +210,7 @@ public class PolynomialFunctionLagrangeForm {
 			}
 		}
 
-		return Gate.modField((int)value);
+		return Gate.modField((int) value);
 	}
 
 	/**
@@ -254,19 +254,19 @@ public class PolynomialFunctionLagrangeForm {
 					d *= (x[i] - x[j]);
 				}
 			}
-			//if (d == 0.0) {
-				// This happens only when two abscissas are identical.
-				//for (int k = 0; k < n; ++k) {
-					// if ((i != k) && (x[i] == x[k])) {
-					// throw MathRuntimeException
-					// .createArithmeticException(
-					// "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
-					// i, k, x[i]);
-					// }
-				//}
-			//}
-			t = Polynomial.fieldDiv((int)y[i],(int) d);
-			//t = y[i] / d;
+			// if (d == 0.0) {
+			// This happens only when two abscissas are identical.
+			// for (int k = 0; k < n; ++k) {
+			// if ((i != k) && (x[i] == x[k])) {
+			// throw MathRuntimeException
+			// .createArithmeticException(
+			// "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
+			// i, k, x[i]);
+			// }
+			// }
+			// }
+			t = Polynomial.fieldDiv((int) y[i], (int) d);
+			// t = y[i] / d;
 			// Lagrange polynomial is the sum of n terms, each of which is a
 			// polynomial of degree n-1. tc[] are the coefficients of the i-th
 			// numerator Pi(x) = (x-x[0])...(x-x[i-1])(x-x[i+1])...(x-x[n-1]).

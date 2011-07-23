@@ -75,7 +75,7 @@ public class PolynomialGate extends Gate {
 			for (GateIO gateIo : add.result) {
 				output.set(gateIo.getIndex(), gateIo.value.get(0));
 			}
-			
+
 		}
 
 		// update result

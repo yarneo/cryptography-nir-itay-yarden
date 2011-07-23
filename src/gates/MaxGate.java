@@ -26,9 +26,9 @@ public class MaxGate extends Gate {
 			b.add(in.getIndex(), in.getValue().get(1));
 		}
 		// print a,b
-		System.out.println("a = " + Polynomial.computeSecret(a));
-		System.out.println("b = " + Polynomial.computeSecret(b));
-		
+		// System.out.println("a = " + Polynomial.computeSecret(a));
+		// System.out.println("b = " + Polynomial.computeSecret(b));
+
 		// compute -b
 		ArrayList<GateIO> minusB = new ArrayList<GateIO>();
 		for (int i = 0; i < b.size(); i++) {
@@ -40,12 +40,12 @@ public class MaxGate extends Gate {
 		constGate.compute();
 
 		// print -b
-		ArrayList<SecretShare> mb = new ArrayList<SecretShare>();
-		for (int i = 0; i < constGate.result.size(); i++) {
-			mb.add(constGate.result.get(i).value.get(0));
-		}
-		System.out.println("-b = " + Polynomial.computeSecret(mb));
-		
+		// ArrayList<SecretShare> mb = new ArrayList<SecretShare>();
+		// for (int i = 0; i < constGate.result.size(); i++) {
+		// mb.add(constGate.result.get(i).value.get(0));
+		// }
+		// System.out.println("-b = " + Polynomial.computeSecret(mb));
+
 		// compute a-b
 		ArrayList<GateIO> aMinusB = new ArrayList<GateIO>();
 		for (int i = 0; i < a.size(); i++) {
@@ -58,17 +58,17 @@ public class MaxGate extends Gate {
 		addGate.compute();
 
 		// print a-b
-		ArrayList<SecretShare> anb = new ArrayList<SecretShare>();
-		for (int i = 0; i < addGate.result.size(); i++) {
-			anb.add(addGate.result.get(i).value.get(0));
-		}
-		System.out.println("a-b = " + Polynomial.computeSecret(anb));
+		// ArrayList<SecretShare> anb = new ArrayList<SecretShare>();
+		// for (int i = 0; i < addGate.result.size(); i++) {
+		// anb.add(addGate.result.get(i).value.get(0));
+		// }
+		// System.out.println("a-b = " + Polynomial.computeSecret(anb));
 
 		ArrayList<Integer> coefs = getMaxCoefs();
 		// print the polynomial
-		Polynomial p = new Polynomial(coefs);
-		p.printPolynomial();
-		
+		// Polynomial p = new Polynomial(coefs);
+		// p.printPolynomial();
+
 		PolynomialGate polyGate = new PolynomialGate(addGate.result, coefs);
 		polyGate.compute();
 		this.result = polyGate.result;

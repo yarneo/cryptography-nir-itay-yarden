@@ -92,7 +92,7 @@ public class Polynomial {
 	public static int fieldDiv(int first, int second) {
 		// get coef a for div 1 and the field
 		int a = extendedGcd(Gate.modField(second), Party.field)[1];
-		if (Gate.modField(second) == 0){
+		if (Gate.modField(second) == 0) {
 			throw new ArithmeticException("in fieldDiv, division by zero");
 		}
 		return Gate.modField(a * Gate.modField(first));
