@@ -44,7 +44,7 @@ public class Polynomial {
 		while (coefs.get(Party.t - 1) == 0) {
 			if ((Party.t == 1) && (secret == 0))
 				break;
-			coefs.set(Party.t - 1, Gate.modField((int) (Math.random() * 100)));
+			coefs.set(coefs.size()-1, Gate.modField((int) (Math.random() * 100)));
 		}
 		return new Polynomial(coefs);
 	}
