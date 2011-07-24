@@ -3,9 +3,12 @@ package circuit;
 import gates.AdditionGate;
 import gates.ConstMult;
 import gates.GateIO;
+import gates.MaxGate;
 import gates.MultiplicationGate;
 
 import java.util.ArrayList;
+
+import utils.Polynomial;
 import crypto.SecretShare;
 
 public class Circuit {
@@ -41,6 +44,30 @@ public class Circuit {
 				gate.secretShares.add(share);
 			}
 		}
+	}
+	
+	public int addMaxGate(int indexfrom,ArrayList<SecretShare> share) {
+		ArrayList<ArrayList<SecretShare>> al = new ArrayList<ArrayList<SecretShare>>();
+		if(share != null)
+		al.add(share);
+		gateIndex++;
+		for(Sextuple Sextuple : gates) {
+			if(Sextuple.index == indexfrom) {
+				Sextuple.next = gateIndex;
+			}
+		}
+
+		gates.add(new Sextuple(al,gateIndex,-1,3));
+		return gateIndex;
+	}
+	
+	public int addMaxGate(ArrayList<SecretShare> share) {
+		ArrayList<ArrayList<SecretShare>> al = new ArrayList<ArrayList<SecretShare>>();
+		if(share != null)
+		al.add(share);
+
+		gates.add(new Sextuple(al,++gateIndex,-1,3));
+		return gateIndex;
 	}
 	
 	public int addMulGate(int indexfrom,ArrayList<SecretShare> share) {
@@ -188,6 +215,29 @@ public class Circuit {
 						gate3.secretShares.add(outcome3);
 					}
 				}								
+				break;
+			case 3: //max
+				ArrayList<GateIO> input4 = new ArrayList<GateIO>();
+				for(int i=0;i<gate.secretShares.get(0).size();i++) {
+					ArrayList<SecretShare> gSecrets = new ArrayList<SecretShare>();
+					gSecrets.add(0, gate.secretShares.get(0).get(i));
+					gSecrets.add(1, gate.secretShares.get(1).get(i));
+					GateIO g0 = new GateIO(i, gSecrets);
+					input4.add(g0);				
+				}
+				gate.gate = new MaxGate(input4);
+				gate.gate.compute();
+				ArrayList<SecretShare> outcome4 = new ArrayList<SecretShare>();
+				for(GateIO gio : gate.gate.getResult()) {
+					//System.out.println(gio.getValue().size());
+					outcome4.add(gio.getValue().get(0));
+				}
+				gate.output = outcome4;
+				for(Sextuple gate4 : gates) {
+					if(gate4.index == gate.next) {
+						gate4.secretShares.add(outcome4);
+					}
+				}		
 				break;
 			default:
 				break;
