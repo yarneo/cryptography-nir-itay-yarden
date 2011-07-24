@@ -41,7 +41,7 @@ public class Polynomial {
 		}
 		coefs.set(0, secret);
 		// demand that the final coef is not zero
-		while (coefs.get(Party.t - 1) == 0) {
+		while (coefs.get(coefs.size()-1) == 0) {
 			if ((Party.t == 1) && (secret == 0))
 				break;
 			coefs.set(coefs.size()-1, Gate.modField((int) (Math.random() * 100)));
