@@ -71,9 +71,9 @@ public class Frequency {
 				ind = circuit2.addConstGate(Z, -1); //(1-Z)
 				oneConst = Polynomial.createShareSecret(1);
 				ind2 = circuit2.addAdditionGate(ind, oneConst);
-				ind = circuit2.addMulGate(outputs.get(0)); //A*Z
+				ind = circuit2.addMulGate(outy); //A*Z
 				circuit2.addSecretShare(ind, Z);
-				ind3 = circuit2.addMulGate(outputs.get(1)); //B*(1-Z)
+				ind3 = circuit2.addMulGate(outputs.get(i)); //B*(1-Z)
 				circuit2.setNext(ind2, ind3);
 				ind2 = circuit2.addAdditionGate(ind,null);
 				circuit2.setNext(ind3, ind2);
