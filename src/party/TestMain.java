@@ -19,15 +19,28 @@ import gates.PolynomialGate;
 
 public class TestMain {
 
-	/**
-	 * @param args
-	 */
 	public static ArrayList<GateIO> input = new ArrayList<GateIO>();
 
-	public static void main(String[] args) {
+	/*
+	 * Comments: 
+	 * 1. for every test we used different amount of parties. if you
+	 * run some test, there is a need to look at the number of parties and the
+	 * the Party.n variable at class Party.
+	 * 
+	 * 2. each test need to run alone from other tests ( means, don't do:
+	 * testFrequncy(); testGlobalAgreement(); )
+	 */
 
+	public static void main(String[] args) {
+		// testFrequency(); - what it does?, put comments
+		// testSubstract();
+		// testAverage(); - not working
+		// testGlobalAgreement();
+		// testCircuit();
+		testMax();
+		
 	}
-	
+
 	public static void testFrequency() {
 		int numOfContestents = 3;
 		ArrayList<Integer> vote = new ArrayList<Integer>();
@@ -53,15 +66,15 @@ public class TestMain {
 		parties.add(p3);
 		parties.add(p4);
 		parties.add(p5);
-		System.out.println(Polynomial.computeSecret(Frequency.frequency(parties, numOfContestents)));	
+		System.out.println(Polynomial.computeSecret(Frequency.frequency(
+				parties, numOfContestents)));
 	}
-
 
 	public static void testSubstract() {
 		Party p1 = new Party(7);
 		Party p2 = new Party(4);
-		Circuit circuit = new Circuit();
 
+		Circuit circuit = new Circuit();
 		int ret = circuit.addConstGate(p2.shareSecret(), -1);
 		int ret2 = circuit.addAdditionGate(ret, p1.shareSecret());
 
@@ -72,15 +85,18 @@ public class TestMain {
 
 	public static void testAverage() {
 		Party p1 = new Party(1);
-		Party p2 = new Party(3);
-		Party p3 = new Party(2);
-		Party p4 = new Party(2);
+		Party p2 = new Party(1);
+		Party p3 = new Party(7);
+		Party p4 = new Party(7);
+		System.out.println("field = " + Party.field);
+		
 		ArrayList<Party> parties = new ArrayList<Party>();
 		parties.add(p1);
 		parties.add(p2);
 		parties.add(p3);
 		parties.add(p4);
-		System.out.println((Polynomial.computeSecret(Average.average(parties)))/parties.size());
+		System.out.println((Polynomial.computeSecret(Average.average(parties)))
+				/ parties.size());
 	}
 
 	public static void testGlobalAgreement() {
@@ -93,7 +109,8 @@ public class TestMain {
 		parties.add(p2);
 		parties.add(p3);
 		parties.add(p4);
-		System.out.println((Polynomial.computeSecret(GlobalAgreement.globalAgreement(parties))));
+		System.out.println((Polynomial.computeSecret(GlobalAgreement
+				.globalAgreement(parties))));
 	}
 
 	public static void testCircuit() {
@@ -103,13 +120,13 @@ public class TestMain {
 		Party p4 = new Party(2);
 		Circuit circuit = new Circuit();
 
-		int ret = circuit.addMulGate(p1.shareSecret()); //1*3
+		int ret = circuit.addMulGate(p1.shareSecret()); // 1*3
 		circuit.addSecretShare(ret, p2.shareSecret());
 
-		int ret2 = circuit.addMulGate(p3.shareSecret()); //2*2
+		int ret2 = circuit.addMulGate(p3.shareSecret()); // 2*2
 		circuit.addSecretShare(ret2, p4.shareSecret());
 
-		int ret3 = circuit.addAdditionGate(ret, null); //(1*3)+(2*2)
+		int ret3 = circuit.addAdditionGate(ret, null); // (1*3)+(2*2)
 		circuit.setNext(ret2, ret3);
 
 		circuit.computeCircuit();
