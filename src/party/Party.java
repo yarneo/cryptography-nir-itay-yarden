@@ -10,7 +10,7 @@ import crypto.SecretShare;
 public class Party {
 
 	public final static int t = 1; // number of Affiliates rivals
-	public final static int n = 2 * t + 1; // number of parties
+	public final static int n = 3; // number of parties
 	// NOTICE - the parties are indexed by 1, .. , n (not by zero)
 	public static int field = 0;
 
@@ -54,6 +54,17 @@ public class Party {
 
 	public Party(ArrayList<Integer> vote) {
 		this.vote = vote;
+		this.index = PartyIndex;
+		PartyIndex++;
+		parties.add(this);
+		shares = new ArrayList<SecretShare>();
+
+		if (field == 0) {
+			field = 2 * n + 1;
+			while (!isPrime(field)) {
+				field++;
+			}
+		}
 	}
 
 	// share the local secret with the other parties
@@ -62,6 +73,12 @@ public class Party {
 		return Polynomial.createShareSecret(this.secret);
 	}
 
+	public ArrayList<SecretShare> shareVote(int index) {
+		// initial secret sharing
+		return Polynomial.createShareSecret(this.vote.get(index));
+	}
+	
+	
 	public void addSecretShare(SecretShare s) {
 		this.shares.add(s);
 	}
